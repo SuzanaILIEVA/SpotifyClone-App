@@ -6,4 +6,11 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 
+    <!-- Splash Screen Theme -->
+    <style name="AppTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Baslangic ekranı arka planı için siyah renkte drawable referansı -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
 </resources>
+
