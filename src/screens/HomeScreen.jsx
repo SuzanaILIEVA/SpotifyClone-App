@@ -6,124 +6,157 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import Loader from '../components/Loader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {ArtistContext} from '../context/ArtistContext';
+import ArtistCard from '../components/ArtistCard';
+import {AlbumContext} from '../context/AlbumContext';
+import AlbumCard from '../components/AlbumCard';
+import Loader from '../components/Loader';
+import Error from '../components/Error';
 
 const HomeScreen = () => {
+  const {artists, loading, error} = useContext(ArtistContext);
+  // console.log('artists ==>', artists);
+  const {albums} = useContext(AlbumContext);
+  console.log('albums ==>', albums);
+
   return (
     <LinearGradient colors={['#040306', '#131624']} style={{flex: 1}}>
-      {/* <Loader /> */}
-      <ScrollView contentContainerStyle={{padding: 3}}>
-        <View style={styles.headercontainer}>
-          <View style={styles.headercontent}>
-            <Image
-              source={{
-                uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAqOFvRymkUtq98cu5cgOza2yBq_KLf-xZmsD2yetOennC5xQ6g9gavkuTCM4abfDsUF0&usqp=CAU',
-                width: 60,
-                height: 60,
-              }}
-              style={{borderRadius: 50}}
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Error error={error} />
+      ) : (
+        <ScrollView contentContainerStyle={{padding: 3}}>
+          <View style={styles.headercontainer}>
+            <View style={styles.headercontent}>
+              <Image
+                source={{
+                  uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAqOFvRymkUtq98cu5cgOza2yBq_KLf-xZmsD2yetOennC5xQ6g9gavkuTCM4abfDsUF0&usqp=CAU',
+                  width: 60,
+                  height: 60,
+                }}
+                style={{borderRadius: 50}}
+              />
+              <Text style={styles.headertext}>message</Text>
+            </View>
+            <MaterialCommunityIcons
+              name="lightning-bolt"
+              size={40}
+              color={'white'}
             />
-            <Text style={styles.headertext}>message</Text>
           </View>
-          <MaterialCommunityIcons
-            name="lightning-bolt"
-            size={40}
-            color={'white'}
-          />
-        </View>
-        {/* tab buttons */}
-        <View style={styles.tabButtons}>
-          <Pressable style={styles.tabBtn}>
-            <Text style={styles.tabBtnText}>Music</Text>
-          </Pressable>
-          <Pressable style={styles.tabBtn}>
-            <Text style={styles.tabBtnText}>Podcasts & Shows</Text>
-          </Pressable>
-        </View>
+          {/* tab buttons */}
+          <View style={styles.tabButtons}>
+            <Pressable style={styles.tabBtn}>
+              <Text style={styles.tabBtnText}>Music</Text>
+            </Pressable>
+            <Pressable style={styles.tabBtn}>
+              <Text style={styles.tabBtnText}>Podcasts & Shows</Text>
+            </Pressable>
+          </View>
 
-        {/* types */}
-        <View>
-          <Pressable style={styles.songsRow}>
-            <LinearGradient
-              colors={['#33006F', '#fff']}
-              style={{borderRadius: 10}}>
-              <Pressable
+          {/* types */}
+          <View>
+            <Pressable style={styles.songsRow}>
+              <LinearGradient
+                colors={['#33006F', '#fff']}
+                style={{borderRadius: 10}}>
+                <Pressable
+                  style={{
+                    width: 55,
+                    height: 55,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <AntDesign name="heart" size={32} color="white" />
+                </Pressable>
+              </LinearGradient>
+              <Text
                 style={{
-                  width: 55,
-                  height: 55,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  color: 'white',
+                  marginLeft: 20,
+                  fontSize: 20,
                 }}>
-                <AntDesign name="heart" size={32} color="white" />
-              </Pressable>
-            </LinearGradient>
-            <Text
-              style={{
-                color: 'white',
-                marginLeft: 20,
-                fontSize: 20,
-              }}>
-              Liked Songs
-            </Text>
-          </Pressable>
+                Liked Songs
+              </Text>
+            </Pressable>
 
-          <Pressable style={styles.songsRow}>
-            <LinearGradient
-              colors={['#33006F', '#fff']}
-              style={{borderRadius: 10}}>
-              <Pressable
+            <Pressable style={styles.songsRow}>
+              <LinearGradient
+                colors={['#33006F', '#fff']}
+                style={{borderRadius: 10}}>
+                <Pressable
+                  style={{
+                    width: 55,
+                    height: 55,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <MaterialCommunityIcons
+                    name="party-popper"
+                    size={32}
+                    color="white"
+                  />
+                </Pressable>
+              </LinearGradient>
+              <Text
                 style={{
-                  width: 55,
-                  height: 55,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  color: 'white',
+                  marginLeft: 20,
+                  fontSize: 20,
                 }}>
-                <MaterialCommunityIcons
-                  name="party-popper"
-                  size={32}
-                  color="white"
-                />
-              </Pressable>
-            </LinearGradient>
-            <Text
-              style={{
-                color: 'white',
-                marginLeft: 20,
-                fontSize: 20,
-              }}>
-              The Party Hits
-            </Text>
-          </Pressable>
+                The Party Hits
+              </Text>
+            </Pressable>
 
-          <Pressable style={styles.songsRow}>
-            <LinearGradient
-              colors={['#33006F', '#fff']}
-              style={{borderRadius: 10}}>
-              <Pressable
+            <Pressable style={styles.songsRow}>
+              <LinearGradient
+                colors={['#33006F', '#fff']}
+                style={{borderRadius: 10}}>
+                <Pressable
+                  style={{
+                    width: 55,
+                    height: 55,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <AntDesign name="star" size={32} color="white" />
+                </Pressable>
+              </LinearGradient>
+              <Text
                 style={{
-                  width: 55,
-                  height: 55,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  color: 'white',
+                  marginLeft: 20,
+                  fontSize: 20,
                 }}>
-                <AntDesign name="star" size={32} color="white" />
-              </Pressable>
-            </LinearGradient>
-            <Text
-              style={{
-                color: 'white',
-                marginLeft: 20,
-                fontSize: 20,
-              }}>
-              90s Love Songs
-            </Text>
-          </Pressable>
-        </View>
-      </ScrollView>
+                90s Love Songs
+              </Text>
+            </Pressable>
+
+            {/* top artists */}
+
+            <Text style={styles.sectionTitle}>Your Top Artists</Text>
+
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {artists?.map((artist, index) => (
+                <ArtistCard key={index} artist={artist} />
+              ))}
+            </ScrollView>
+
+            {/* popular albums */}
+            <Text style={styles.sectionTitle}>Popular Albums</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {albums?.map((album, index) => (
+                <AlbumCard key={index} album={album} />
+              ))}
+            </ScrollView>
+          </View>
+        </ScrollView>
+      )}
     </LinearGradient>
   );
 };
@@ -175,5 +208,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 10,
     borderRadius: 10,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    margin: 15,
+    color: 'white',
   },
 });

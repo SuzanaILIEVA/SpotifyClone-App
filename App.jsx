@@ -1,12 +1,15 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import Routes from './src/navigation/Routes';
+import {ArtistProvider} from './src/context/ArtistContext';
+import {AlbumProvider} from './src/context/AlbumContext';
 
 const App = () => {
   return (
-    <View style={{flex: 1}}>
-      <Routes />
-    </View>
+    <ArtistProvider>
+      <AlbumProvider>
+        <Routes />
+      </AlbumProvider>
+    </ArtistProvider>
   );
 };
 
