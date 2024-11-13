@@ -1,10 +1,11 @@
 import {View, Text} from 'react-native';
 import React from 'react';
+import Routes from './src/navigation/Routes';
 
 const App = () => {
   return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>
-      <Text>Apppppp</Text>
+    <View style={{flex: 1}}>
+      <Routes />
     </View>
   );
 };
