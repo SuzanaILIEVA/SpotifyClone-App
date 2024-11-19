@@ -16,12 +16,14 @@ import {AlbumContext} from '../context/AlbumContext';
 import AlbumCard from '../components/AlbumCard';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
   const {artists, loading, error} = useContext(ArtistContext);
   // console.log('artists ==>', artists);
   const {albums} = useContext(AlbumContext);
-  console.log('albums ==>', albums);
+  // console.log('albums ==>', albums);
 
   return (
     <LinearGradient colors={['#040306', '#131624']} style={{flex: 1}}>
@@ -61,7 +63,9 @@ const HomeScreen = () => {
 
           {/* types */}
           <View>
-            <Pressable style={styles.songsRow}>
+            <Pressable
+              style={styles.songsRow}
+              onPress={() => navigation.navigate('Liked')}>
               <LinearGradient
                 colors={['#33006F', '#fff']}
                 style={{borderRadius: 10}}>

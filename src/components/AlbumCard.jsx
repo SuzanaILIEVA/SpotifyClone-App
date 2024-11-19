@@ -11,7 +11,11 @@ export default function AlbumCard({album}) {
     <TouchableOpacity onPress={() => navigation.navigate('Info', {album})}>
       <View style={styles.albumContainer}>
         <Image
-          source={{uri: album?.data?.coverArt?.sources[0].url}}
+          source={
+            album?.data?.coverArt?.sources[0].url
+              ? {uri: album?.data?.coverArt?.sources[0].url}
+              : require('../assets/images/imagesong.jpg')
+          }
           style={styles.albumImg}
         />
 

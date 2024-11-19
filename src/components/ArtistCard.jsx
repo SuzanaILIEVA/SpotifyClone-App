@@ -6,7 +6,11 @@ const ArtistCard = ({artist}) => {
     <TouchableOpacity>
       <View style={styles.artistContainer}>
         <Image
-          source={{uri: artist.data.visuals.avatarImage?.sources[0].url}}
+          source={
+            artist.data.visuals.avatarImage?.sources[0].url
+              ? {uri: artist.data.visuals.avatarImage?.sources[0].url}
+              : require('../assets/images/imagesong.jpg')
+          }
           style={styles.artistImage}
         />
         <Text numberOfLines={1} style={styles.artistName}>
