@@ -4,7 +4,7 @@ import React from 'react';
 const Loader = () => {
   return (
     <View style={styles.loading}>
-      <ActivityIndicator size={80} color={'#1DB954'} />
+      <ActivityIndicator size={80} color={'white'} />
     </View>
   );
 };
@@ -17,3 +17,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+//1DB954
