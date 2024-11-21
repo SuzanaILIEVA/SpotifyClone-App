@@ -1,3 +1,11 @@
+# Spotify Clone Project
+
+Spotify Clone built using React Native. The application replicates essential features of Spotify, enabling users to:
+
+- Navigate between screens: Includes a bottom tab navigation setup for Home and Profile screens.
+- Search for songs: Users can search for their favorite tracks.
+- Play and control songs: Built-in music player functionality allows playback, pausing, and control of songs.
+
 # libraries
 
 - npx react-native@0.75.4 init spotifyClone --version 0.75.4
@@ -15,3 +23,4 @@
 # API
 
 - https://rapidapi.com/hub
+- https://rapidapi.com/apidojo/api/shazam

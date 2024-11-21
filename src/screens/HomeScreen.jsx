@@ -158,6 +158,25 @@ const HomeScreen = () => {
                 <AlbumCard key={index} album={album} />
               ))}
             </ScrollView>
+
+            {/*Recently Played  */}
+            <Text style={styles.sectionTitle}>Recently Played</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {albums?.slice(3, 10).map((album, index) => (
+                <AlbumCard key={index} album={album} />
+              ))}
+            </ScrollView>
+
+            {/*All Out 90s  */}
+            <Text style={styles.sectionTitle}>All Out 90s</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {albums
+                ?.slice()
+                .reverse()
+                .map((album, index) => (
+                  <AlbumCard key={index} album={album} />
+                ))}
+            </ScrollView>
           </View>
         </ScrollView>
       )}

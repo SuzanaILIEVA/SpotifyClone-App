@@ -15,14 +15,13 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
   return (
-    // <View style={styles.shadowOverlay}>
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
           backgroundColor: '#131624',
           ...(Platform.OS === 'android' && {
             shadowColor: '#fff',
-            elevation: -10, // Android için gölge yüksekliği
+            elevation: -10,
           }),
           ...(Platform.OS === 'ios' && {
             shadowColor: '#000',
@@ -66,7 +65,6 @@ const BottomTabs = () => {
         }}
       />
     </Tab.Navigator>
-    // </View>
   );
 };
 
@@ -89,20 +87,3 @@ const Routes = () => {
 };
 
 export default Routes;
-// const styles = StyleSheet.create({
-//   shadowOverlay: {
-//     height: -30, // Gölge yüksekliği (ihtiyaca göre ayarlayın)
-//     backgroundColor: '#000', // Gölge rengi
-//     position: 'absolute',
-//     bottom: 0, // Ekranın altında konumlandırma
-//     left: 0,
-//     right: 0,
-//     borderRadius: 20, // Gölge kırpma radiusı
-//     zIndex: 2, // Tab bar'ın üstünde görünmesi için
-//     shadowColor: '#000',
-//     shadowOffset: {width: 0, height: -5},
-//     shadowOpacity: 0.3,
-//     shadowRadius: 10,
-//     elevation: -10, // Android'de gölge oluşturmak için
-//   },
-// });

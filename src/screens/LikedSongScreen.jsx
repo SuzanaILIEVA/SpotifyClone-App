@@ -15,7 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {useNavigation} from '@react-navigation/native';
 import {API_KEY} from '../utils';
 import axios from 'axios';
@@ -24,13 +24,14 @@ import TrackPlayer, {Capability, useProgress} from 'react-native-track-player';
 import Modal from 'react-native-modal';
 
 const LikedSongScreen = () => {
-  const [searchText, setSearchText] = useState('pink');
+  const [searchText, setSearchText] = useState('alan walker');
   const [searchedTracks, setSearchTracks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedTrack, setSelectedTrack] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const navigation = useNavigation();
   const progress = useProgress();
@@ -82,6 +83,8 @@ const LikedSongScreen = () => {
     }
   };
 
+  //**guncel handleplay */
+
   const handlePlay = async track => {
     const trackData = {
       id: track.track.key,
@@ -93,13 +96,22 @@ const LikedSongScreen = () => {
 
     try {
       await TrackPlayer.reset();
-      await TrackPlayer.add(trackData);
+      await TrackPlayer.add(trackData); // Seçilen şarkıyı ekle
+      await TrackPlayer.add(
+        searchedTracks.map(item => ({
+          id: item.track.key,
+          url: item.track.hub.actions.find(action => action.type === 'uri').uri,
+          title: item.track.title,
+          artist: item.track.subtitle,
+          artwork: item.track.images.coverart,
+        })),
+      );
       await TrackPlayer.play();
       setSelectedTrack(track.track);
       setModalVisible(true);
       setIsPlaying(true);
     } catch (error) {
-      console.log(error);
+      console.log('Şarkıyı oynatırken hata:', error);
     }
   };
 
@@ -133,10 +145,79 @@ const LikedSongScreen = () => {
     await TrackPlayer.seekTo(position + 10);
   };
 
+  /*********** */
+
+  //*playPreviousTrack
+  const playPreviousTrack = async () => {
+    try {
+      const currentTrackIndex = await TrackPlayer.getCurrentTrack(); // Mevcut çalan parçanın indeksini al
+      const queue = await TrackPlayer.getQueue();
+      if (currentTrackIndex > 0) {
+        await TrackPlayer.skipToPrevious(); // Önceki parçaya geç
+        const previousTrack = queue[currentTrackIndex - 1]; // Kuyrukta önceki parça
+        setSelectedTrack({
+          title: previousTrack.title,
+          subtitle: previousTrack.artist,
+          images: {coverart: previousTrack.artwork},
+        }); // Yeni şarkının bilgilerini güncelle
+      } else {
+        console.log('Kuyruğun başındasınız.');
+      }
+    } catch (error) {
+      console.error('Önceki parçaya geçişte bir hata oluştu:', error);
+    }
+  };
+
+  //*playNextTrack
+  const playNextTrack = async () => {
+    try {
+      const currentTrackIndex = await TrackPlayer.getCurrentTrack();
+      const queue = await TrackPlayer.getQueue();
+
+      if (currentTrackIndex < queue.length - 1) {
+        await TrackPlayer.skipToNext();
+        const nextTrack = queue[currentTrackIndex + 1]; // Kuyrukta sıradaki parça
+        setSelectedTrack({
+          title: nextTrack.title,
+          subtitle: nextTrack.artist,
+          images: {coverart: nextTrack.artwork},
+        }); // Yeni şarkının bilgilerini güncelle
+      }
+    } catch (error) {
+      console.error('Sonraki şarkıya geçişte bir hata oluştu:', error);
+    }
+  };
+
+  //*sarkilari kuyruya ekle
+  const addTracksToQueue = async () => {
+    const formattedTracks = searchedTracks.map((item, index) => ({
+      id: `${item.track.key}-${index}`,
+      url: item.track.hub.actions.find(action => action.type === 'uri').uri,
+      title: item.track.title,
+      artist: item.track.subtitle,
+      artwork: item.track.images.coverart,
+    }));
+
+    try {
+      await TrackPlayer.add(formattedTracks); // Şarkıları kuyruğa ekle
+      console.log('Şarkılar kuyruğa eklendi:', formattedTracks);
+    } catch (error) {
+      console.error('Kuyruğa şarkı eklerken hata oluştu:', error);
+    }
+  };
+
+  const toggleLike = () => {
+    setSelectedTrack({
+      ...selectedTrack,
+      isLiked: !selectedTrack.isLiked,
+    });
+  };
+
   useEffect(() => {
     handleSearch();
     setupPlayer();
   }, [searchText]);
+
   return (
     <>
       <LinearGradient
@@ -262,7 +343,7 @@ const LikedSongScreen = () => {
             </View>
             <View style={{padding: 10}}>
               <Image
-                source={{uri: selectedTrack?.images.coverart}}
+                source={{uri: selectedTrack?.images?.coverart}}
                 style={styles.modalImage}
               />
 
@@ -276,22 +357,33 @@ const LikedSongScreen = () => {
                 }}>
                 <View>
                   <Text
-                    // numberOfLines={1}
+                    numberOfLines={1}
                     style={{
                       color: 'white',
                       fontSize: 18,
                       fontWeight: 'bold',
-                      flexWrap: 'wrap',
-                      width: '80%',
+                      width: '90%',
                     }}>
                     {selectedTrack?.title}
                   </Text>
                   <Text
-                    style={{color: 'white', fontSize: 18, fontWeight: 'bold'}}>
+                    numberOfLines={1}
+                    style={{
+                      color: 'white',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      width: '90%',
+                    }}>
                     {selectedTrack?.subtitle}
                   </Text>
                 </View>
-                <FontAwesome name="heart" size={30} color={'white'} />
+                <Pressable onPress={toggleLike}>
+                  <FontAwesome
+                    name="heart"
+                    size={30}
+                    color={selectedTrack.isLiked ? 'red' : 'white'}
+                  />
+                </Pressable>
               </View>
 
               {/* progressbar */}
@@ -343,6 +435,22 @@ const LikedSongScreen = () => {
                     {formatTime(progress.duration)}
                   </Text>
                 </View>
+                {/* mix buttons */}
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: 20,
+                  }}>
+                  <Pressable onPress={addTracksToQueue}>
+                    <Entypo name="shuffle" size={25} color={'#1ED760'} />
+                  </Pressable>
+
+                  <Pressable>
+                    <Fontisto name="arrow-swap" size={25} color={'#1ED760'} />
+                  </Pressable>
+                </View>
 
                 {/* controllers */}
 
@@ -361,7 +469,7 @@ const LikedSongScreen = () => {
                     />
                   </Pressable>
 
-                  <Pressable>
+                  <Pressable onPress={playPreviousTrack}>
                     <Ionicons name="play-skip-back" size={30} color={'white'} />
                   </Pressable>
 
@@ -373,7 +481,7 @@ const LikedSongScreen = () => {
                     )}
                   </Pressable>
 
-                  <Pressable>
+                  <Pressable onPress={playNextTrack}>
                     <Ionicons
                       name="play-skip-forward"
                       size={30}
