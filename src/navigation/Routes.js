@@ -10,6 +10,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Platform, StatusBar, StyleSheet, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import LibraryScreen from '../screens/LibraryScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -61,6 +62,21 @@ const BottomTabs = () => {
               <Ionicons name="person" size={28} color={'white'} />
             ) : (
               <Ionicons name="person-outline" size={24} color={'white'} />
+            ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Library"
+        component={LibraryScreen}
+        options={{
+          tabBarLabel: 'Library',
+          tabBarLabelStyle: {color: '#fff', fontSize: 13, fontWeight: '500'},
+          tabBarIcon: ({focused}) =>
+            focused ? (
+              <Ionicons name="library" size={28} color={'white'} />
+            ) : (
+              <Ionicons name="library-outline" size={24} color={'white'} />
             ),
         }}
       />

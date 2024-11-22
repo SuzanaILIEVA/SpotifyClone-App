@@ -360,19 +360,19 @@ const LikedSongScreen = () => {
                     numberOfLines={1}
                     style={{
                       color: 'white',
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: 'bold',
-                      width: '90%',
+                      padding: 10,
                     }}>
                     {selectedTrack?.title}
                   </Text>
                   <Text
                     numberOfLines={1}
                     style={{
-                      color: 'white',
+                      color: 'gray',
                       fontSize: 18,
-                      fontWeight: 'bold',
-                      width: '90%',
+                      fontWeight: '500',
+                      padding: 10,
                     }}>
                     {selectedTrack?.subtitle}
                   </Text>
@@ -381,7 +381,7 @@ const LikedSongScreen = () => {
                   <FontAwesome
                     name="heart"
                     size={30}
-                    color={selectedTrack.isLiked ? 'red' : 'white'}
+                    color={selectedTrack?.isLiked ? 'red' : 'white'}
                   />
                 </Pressable>
               </View>
