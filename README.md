@@ -24,3 +24,7 @@ Spotify Clone built using React Native. The application replicates essential fea
 
 - https://rapidapi.com/hub
 - https://rapidapi.com/apidojo/api/shazam
+
+# Gif
+
+![](./src/assets/images/spotify.gif)

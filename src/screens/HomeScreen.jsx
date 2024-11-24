@@ -43,7 +43,7 @@ const HomeScreen = () => {
                 }}
                 style={{borderRadius: 50}}
               />
-              <Text style={styles.headertext}>message</Text>
+              <Text style={styles.headertext}>Suzana</Text>
             </View>
             <MaterialCommunityIcons
               name="lightning-bolt"
